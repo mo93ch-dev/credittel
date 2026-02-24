@@ -1,0 +1,315 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خرید کریدیت موبایل</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {font-family:'Vazirmatn',Tahoma,sans-serif;background:#1c1c1c;margin:0;padding:0;color:white;}
+.container{max-width:700px;margin:50px auto;background:#2c2c2c;border-radius:20px;padding:30px 25px;box-shadow:0 15px 35px rgba(0,0,0,0.5);border-top:5px solid #0088cc;position:relative;}
+h2{text-align:center;color:#0088cc;margin-bottom:25px;font-size:28px;}
+.row{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:15px;align-items:center;}
+.row .group{flex:1;display:flex;gap:10px;}
+label{display:block;margin-bottom:5px;font-weight:bold;color:#0088cc;}
+input, select{padding:12px;border-radius:10px;border:1px solid #555;font-size:15px;transition:0.3s;width:100%;background:#3c3c3c;color:white;}
+input::placeholder, select option{color:#ccc;}
+input:focus, select:focus{border-color:#0088cc;outline:none;box-shadow:0 0 8px rgba(0,136,204,0.5);}
+button{background:#0088cc;color:white;border:none;font-weight:bold;cursor:pointer;transition:0.3s;font-size:16px;border-radius:10px;padding:10px 15px;}
+button:hover{background:#006699;transform: translateY(-2px);}
+.result, #historyBox, #detailsPage, #paymentPage{margin-top:25px;padding:20px;background:#3a3a3a;border-radius:15px;display:none;animation:fadeIn 0.5s;border-left:5px solid #0088cc;color:white;max-height:400px;overflow:auto;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(-10px);}to{opacity:1; transform:translateY(0);}}
+.detail-item{margin:10px 0;font-size:15px;padding:12px;border-radius:10px;background:#2a2a2a;display:flex;flex-direction:column;align-items:flex-start;gap:5px;}
+.detail-item span, .detail-item b{margin-bottom:3px;}
+.code{font-size:20px;font-weight:bold;color:#0088cc;}
+.signature{font-size:16px;font-weight:bold;color:#00ffff;margin-top:5px;}
+.copy-btn{background:#00aaff;margin-left:10px;transition:0.3s;border:none;padding:5px 10px;border-radius:10px;color:white;cursor:pointer;font-size:14px;margin-top:5px;}
+.copy-btn:hover{background:#0088cc;color:white;}
+.history-btn{background:#ffaa00 !important;color:white;display:inline-flex;align-items:center;gap:5px;border-radius:10px;font-size:15px;padding:8px 10px;font-weight:bold;border:none;}
+.arrow{font-size:16px;transition:0.3s;}
+.upload-btn{display:inline-block;background:#0088cc;color:white;padding:10px 15px;border-radius:10px;cursor:pointer;font-weight:bold;margin-top:5px;}
+.upload-btn:hover{background:#006699;}
+#confirmPaymentBtn:disabled{background:#555;cursor:not-allowed;}
+#cryptoOptions{display:none;margin-top:10px;}
+#amountEquivalent{margin-top:15px;color:#ffd700;font-weight:bold;}
+.redAlert{color:#ff4c4c;font-weight:bold;}
+.closeBtn{position:absolute;top:15px;right:15px;background:#e53935;border:none;color:white;font-size:18px;padding:5px 10px;border-radius:50%;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="container">
+<button class="closeBtn" id="closeFormBtn">✖</button>
+<h2>خرید کریدیت موبایل</h2>
+
+<div class="row form-row">
+<div class="group">
+<input type="text" id="buyerName" placeholder="نام خریدار">
+<input type="text" id="buyerFather" placeholder="نام پدر">
+</div>
+</div>
+
+<div class="row form-row">
+<div class="group">
+<select id="operator">
+<option value="">انتخاب اپراتور</option>
+<option value="Automaa">اتوما</option>
+<option value="Roshan">روشن</option>
+<option value="Etisalat">اتصالات</option>
+<option value="AfghanWireless">افغان بیسیم</option>
+<option value="Salaam">سلام</option>
+</select>
+<input type="text" id="mobileNumber" placeholder="شماره موبایل">
+</div>
+</div>
+
+<div class="row form-row">
+<div class="group">
+<select id="predefinedAmount">
+<option value="50">۵۰ افغانی</option>
+<option value="100">۱۰۰ افغانی</option>
+<option value="custom">مقدار دلخواه</option>
+</select>
+<input type="number" id="customAmount" placeholder="مقدار دلخواه (100-1000)" style="display:none;">
+</div>
+</div>
+
+<div class="row form-row">
+<label style="width:100%;">روش پرداخت</label>
+<select id="paymentMethod">
+<option value="toman" selected>تومان</option>
+<option value="starrs">استارز</option>
+<option value="crypto">ارز دیجیتال</option>
+<option value="afghani" disabled>افغانی (به زودی)</option>
+</select>
+</div>
+
+<div id="cryptoOptions">
+<label style="width:100%;">انتخاب ارز دیجیتال</label>
+<select id="cryptoType">
+<option value="USDT">USDT</option>
+<option value="PI">PI NETWORK</option>
+</select>
+</div>
+
+<p id="amountEquivalent"></p>
+
+<div style="display:flex;gap:10px;margin-top:20px;">
+<button id="submitBtn" onclick="submitForm()">تأیید و ادامه</button>
+<button class="history-btn" id="historyBtn">تاریخچه سفارش‌ها <span class="arrow">▼</span></button>
+</div>
+
+<div id="paymentPage">
+<h2 style="color:#00d4ff;text-align:center;">مرحله پرداخت</h2>
+<p id="paymentText" class="redAlert" style="font-weight:bold;line-height:1.6;"></p>
+<p id="equivalentToman" style="color:#ffcc00;font-weight:bold;margin-top:15px;"></p>
+<label for="paymentReceipt" class="upload-btn">انتخاب عکس رسید</label>
+<input type="file" id="paymentReceipt" accept="image/*" hidden>
+<p id="fileName" style="color:#00ff99;font-size:14px;"></p>
+<button id="confirmPaymentBtn" disabled style="color:white;font-weight:bold;border-radius:10px;padding:10px 15px;margin-top:10px;">تأیید و ثبت سفارش</button>
+<button class="copy-btn" onclick="copyDetails()">کاپی جزئیات</button>
+<button class="copy-btn" style="background:#e53935;margin-top:10px;" onclick="closePaymentPage()">بستن صفحه</button>
+</div>
+
+<div id="detailsPage">
+<h2 style="color:#00d4ff;text-align:center;">جزئیات سفارش</h2>
+<p id="orderStatus" style="color:#00ff4c;font-weight:bold;margin-bottom:15px;"></p>
+<div id="details"></div>
+<button class="copy-btn" onclick="copyDetails()">کاپی جزئیات</button>
+<button class="copy-btn" style="background:#e53935;" onclick="closeDetails()">بستن</button>
+</div>
+
+<div id="historyBox"></div>
+</div>
+
+<script>
+const allOrders = JSON.parse(localStorage.getItem("allOrders")||"[]");
+const predefinedAmount = document.getElementById("predefinedAmount");
+const customAmount = document.getElementById("customAmount");
+const paymentMethod = document.getElementById("paymentMethod");
+const cryptoOptions = document.getElementById("cryptoOptions");
+const cryptoType = document.getElementById("cryptoType");
+const amountEquivalent = document.getElementById("amountEquivalent");
+const mobileInput = document.getElementById("mobileNumber");
+
+function toEnglishNumbers(str){
+return str.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+}
+
+mobileInput.addEventListener("input",()=>{mobileInput.value = toEnglishNumbers(mobileInput.value);});
+
+predefinedAmount.addEventListener("change",()=>{customAmount.style.display = predefinedAmount.value==="custom"?"block":"none";updateEquivalent();});
+customAmount.addEventListener("input",()=>updateEquivalent());
+paymentMethod.addEventListener("change",()=>{
+updateEquivalent();
+cryptoOptions.style.display = paymentMethod.value==="crypto"?"block":"none";
+});
+
+function updateEquivalent(){
+let baseAmount = predefinedAmount.value==="custom"?parseInt(customAmount.value)||0:parseInt(predefinedAmount.value);
+let method = paymentMethod.value;
+let amount = baseAmount;
+if(method==="toman" || method==="afghani"){amount *= 1.05;} else {amount *= 1.15;}
+let equivalent="";
+if(method==="toman"){equivalent = `${Math.round(amount*(1000000/370)).toLocaleString()} تومان`;}
+if(method==="starrs"){equivalent = `${amount.toFixed(2)} استارز`;}
+if(method==="crypto"){
+if(cryptoType.value==="PI"){let piAmt=(amount/10.4).toFixed(2); equivalent=`${piAmt} پای`;}
+else{equivalent=`${(amount/65).toFixed(2)} USDT`;}
+}
+amountEquivalent.innerText = amount>0?`مقدار با کمیشن: ${amount.toFixed(2)} افغانی → معادل: ${equivalent}`:"";
+}
+
+function validateNumber(number){
+const validStarts = ["077","076","074","0700","0799","078","072"];
+if(number.length !== 10) return false;
+return validStarts.some(s => number.startsWith(s));
+}
+
+function submitForm(){
+let operator = document.getElementById("operator").value;
+let baseAmount = predefinedAmount.value==="custom"?parseInt(customAmount.value):parseInt(predefinedAmount.value);
+let method = paymentMethod.value;
+let amount = baseAmount;
+
+if(predefinedAmount.value==="custom" && (amount<100 || amount>1000)){alert("مقدار دلخواه باید بین 100 تا 1000 افغانی باشد");return;}
+if(!validateNumber(mobileInput.value)){alert("شماره موبایل نامعتبر است");return;}
+if(method==="toman" || method==="afghani"){amount *= 1.05;} else {amount *= 1.15;}
+
+let buyerName = document.getElementById("buyerName").value.trim();
+let buyerFather = document.getElementById("buyerFather").value.trim();
+if(!operator || !buyerName || !buyerFather || !mobileInput.value){alert("لطفاً همه فیلدها را کامل کنید");return;}
+
+window.pendingOrder={operator,amount,method,buyerName,buyerFather,mobileNumber:mobileInput.value,cryptoSelected:cryptoType.value};
+document.getElementById("buyerName").value="";
+document.getElementById("buyerFather").value="";
+document.getElementById("mobileNumber").value="";
+predefinedAmount.value="50";
+customAmount.value="";
+updateEquivalent();
+openPaymentPage();
+}
+
+const paymentPage = document.getElementById("paymentPage");
+const paymentText = document.getElementById("paymentText");
+const equivalentToman = document.getElementById("equivalentToman");
+const receiptInput = document.getElementById("paymentReceipt");
+const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
+const fileName = document.getElementById("fileName");
+const orderStatus = document.getElementById("orderStatus");
+
+function openPaymentPage(){
+document.querySelectorAll(".form-row").forEach(el=>el.style.display="none");
+document.getElementById("submitBtn").style.display="none";
+paymentPage.style.display="block";
+
+let order = window.pendingOrder;
+let amt = order.amount;
+
+if(order.method==="starrs"){paymentText.innerHTML=`لطفاً مبلغ ${amt.toFixed(2)} استارز را به آیدی <b>@mogomogo</b> ارسال کنید.`;}
+if(order.method==="toman"){paymentText.innerHTML=`لطفاً مبلغ ${Math.round(amt*(1000000/370)).toLocaleString()} تومان را به شماره کارت <b>6274 1212 0078 0559 بانک اقتصاد نوین</b> واریز کنید.`;}
+if(order.method==="crypto"){
+if(order.cryptoSelected==="PI"){let piAmount = (amt/10.4).toFixed(2); paymentText.innerHTML=`توجه: حتماً تراکنش روی شبکه PI NETWORK باشد.<br>لطفاً مقدار <b>${piAmount}</b> پای را به آدرس <b>pidbdhdhdhdhuueuebdjxjeje</b> واریز کنید.`;}
+else{paymentText.innerHTML=`توجه: حتماً تراکنش روی شبکه TON انجام شود.<br>لطفاً مقدار ${(amt/65).toFixed(2)} USDT را ارسال کنید.`;}
+}
+equivalentToman.innerText=`معادل تقریبی: ${Math.round(amt)} افغانی → ${Math.round(amt*(1000000/370)).toLocaleString()} تومان`;
+confirmPaymentBtn.disabled = true;
+confirmPaymentBtn.style.background="#555";
+fileName.innerText="";
+}
+
+receiptInput.addEventListener("change",function(){
+if(this.files.length>0){
+confirmPaymentBtn.disabled=false;
+confirmPaymentBtn.style.background="#28a745";
+fileName.innerText="فایل انتخاب شده: "+this.files[0].name;
+}else{
+confirmPaymentBtn.disabled=true;
+confirmPaymentBtn.style.background="#555";
+fileName.innerText="";
+}});
+
+confirmPaymentBtn.addEventListener("click",function(){
+let order = window.pendingOrder;
+let tracking = Math.floor(1000+Math.random()*9000);
+let now = new Date();
+let dateTime = now.toLocaleString();
+let detailsHTML = `
+<p style="color:#00ff4c;font-weight:bold;">سفارش شما ثبت شد و در حال بررسی می‌باشد. بعد از بررسی و راستی‌آزمایی سفارش شما تائید و اجرا خواهد شد.</p>
+<div class="detail-item"><b>شماره سفارش:</b> <span class="code">${tracking}</span></div>
+<div class="detail-item"><b>خریدار:</b> ${order.buyerName} (${order.buyerFather})</div>
+<div class="detail-item"><b>شماره موبایل:</b> ${order.mobileNumber}</div>
+<div class="detail-item"><b>اپراتور:</b> ${order.operator}</div>
+<div class="detail-item"><b>مبلغ با کمیشن:</b> ${order.amount.toFixed(2)} افغانی</div>
+<div class="detail-item"><b>روش پرداخت:</b> ${order.method==="starrs"?"استارز":order.cryptoSelected==="PI"?"PI NETWORK":"USDT"}</div>
+<div class="detail-item"><b>معادل:</b> ${order.method==="starrs"?order.amount.toFixed(2):(order.cryptoSelected==="PI"? (order.amount/10.4).toFixed(2)+" پای":(order.amount/65).toFixed(2)+" USDT")} / ${Math.round(order.amount*(1000000/370)).toLocaleString()} تومان</div>
+<div class="detail-item"><b>تاریخ و ساعت:</b> ${dateTime}</div>
+`;
+document.getElementById("details").innerHTML=detailsHTML;
+document.getElementById("detailsPage").style.display="block";
+paymentPage.style.display="none";
+allOrders.unshift({...order,tracking,dateTime});
+localStorage.setItem("allOrders",JSON.stringify(allOrders));
+window.pendingOrder=null;
+});
+
+function closeDetails(){
+document.getElementById("detailsPage").style.display="none";
+document.querySelectorAll(".form-row").forEach(el=>el.style.display="flex");
+document.getElementById("submitBtn").style.display="inline-block";
+}
+
+function closePaymentPage(){
+paymentPage.style.display="none";
+document.querySelectorAll(".form-row").forEach(el=>el.style.display="flex");
+document.getElementById("submitBtn").style.display="inline-block";
+}
+
+let historyVisible=false;
+let historyArrow=document.querySelector(".history-btn .arrow");
+let historyBox=document.getElementById("historyBox");
+document.getElementById("historyBtn").addEventListener("click",toggleHistory);
+
+function toggleHistory(){
+historyVisible = !historyVisible;
+historyArrow.innerText = historyVisible?"▲":"▼";
+if(!historyVisible){historyBox.style.display="none";return;}
+if(allOrders.length===0){historyBox.innerHTML="<p style='color:#ccc;'>هیچ سفارشی ثبت نشده است.</p>";} 
+else {
+let html = allOrders.map((o,i)=>`<div class="detail-item" style="flex-direction:column;align-items:flex-start;">
+<div>
+<b>شماره سفارش:</b> ${o.tracking},
+<b>خریدار:</b> ${o.buyerName} (${o.buyerFather}),
+<b>شماره موبایل:</b> ${o.mobileNumber},
+<b>اپراتور:</b> ${o.operator},
+<b>مبلغ با کمیشن:</b> ${o.amount.toFixed(2)} افغانی,
+<b>روش پرداخت:</b> ${o.method==="starrs"?"استارز":o.cryptoSelected==="PI"?"PI NETWORK":"USDT"},
+<b>تاریخ و ساعت:</b> ${o.dateTime}
+</div>
+<button class="copy-btn" onclick="copyHistory(${i})">کاپی</button>
+</div>`).join("");
+historyBox.innerHTML=html;
+historyBox.style.display="block";
+}
+}
+
+function copyHistory(i){
+let o = allOrders[i];
+let text=`شماره سفارش: ${o.tracking}\nخریدار: ${o.buyerName} (${o.buyerFather})\nشماره موبایل: ${o.mobileNumber}\nاپراتور: ${o.operator}\nمبلغ با کمیشن: ${o.amount.toFixed(2)} افغانی\nروش پرداخت: ${o.method==="starrs"?"استارز":o.cryptoSelected==="PI"?"PI NETWORK":"USDT"}\nتاریخ و ساعت: ${o.dateTime}`;
+navigator.clipboard.writeText(text);
+alert("جزئیات سفارش با موفقیت کاپی شد");
+}
+
+function copyDetails(){
+navigator.clipboard.writeText(document.getElementById("details").innerText);
+alert("جزئیات با موفقیت کاپی شد");
+}
+
+// دکمه بستن صفحه اصلی و رفتن به لینک
+document.getElementById("closeFormBtn").addEventListener("click",()=>{
+window.location.href="https://mo93ch-dev.github.io/Aryapardakht";
+});
+</script>
+
+</body>
+</html>
